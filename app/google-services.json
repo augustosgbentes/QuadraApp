@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "516775739424",
+    "project_id": "quadraapp-5fe6a",
+    "storage_bucket": "quadraapp-5fe6a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516775739424:android:ac49f554fae9fadd8c3c45",
+        "android_client_info": {
+          "package_name": "com.unifor.quadraapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA535GJ5c32BIYSUoeXvQSnk8HE3lHPVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
