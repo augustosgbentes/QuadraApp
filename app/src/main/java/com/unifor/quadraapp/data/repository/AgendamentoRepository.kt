@@ -13,7 +13,7 @@ class AgendamentoRepository {
             Log.d("AgendamentoRepository", "Iniciando criação de agendamento...")
             Log.d("AgendamentoRepository", "Agendamento: $agendamento")
 
-            // Gerar ID único para o agendamento
+
             val agendamentoId = database.child("agendamentos").push().key
             if (agendamentoId == null) {
                 Log.e("AgendamentoRepository", "Erro: Não foi possível gerar ID para o agendamento")
@@ -22,11 +22,11 @@ class AgendamentoRepository {
 
             Log.d("AgendamentoRepository", "ID gerado: $agendamentoId")
 
-            // Criar agendamento com ID
+
             val agendamentoComId = agendamento.copy(id = agendamentoId)
             Log.d("AgendamentoRepository", "Agendamento com ID: $agendamentoComId")
 
-            // Salvar no Firebase
+
             Log.d("AgendamentoRepository", "Salvando no Firebase...")
             database.child("agendamentos").child(agendamentoId)
                 .setValue(agendamentoComId).await()

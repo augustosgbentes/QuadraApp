@@ -9,7 +9,7 @@ import com.unifor.quadraapp.ui.viewmodel.AgendamentoViewModel
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
-    // Compartilhar o ViewModel de agendamentos entre as telas
+
     val agendamentoViewModel: AgendamentoViewModel = viewModel()
 
     NavHost(

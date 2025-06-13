@@ -56,7 +56,7 @@ fun MeusAgendamentosScreen(
             .fillMaxSize()
             .background(Color(0xFFF5F5F5))
     ) {
-        // Header azul
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(bottomStart = 0.dp, bottomEnd = 0.dp),
@@ -90,7 +90,7 @@ fun MeusAgendamentosScreen(
                     modifier = Modifier.weight(1f)
                 )
 
-                // Botão de refresh
+
                 IconButton(
                     onClick = { agendamentoViewModel.carregarAgendamentos() },
                     colors = IconButtonDefaults.iconButtonColors(contentColor = Color.White)
@@ -103,7 +103,7 @@ fun MeusAgendamentosScreen(
             }
         }
 
-        // Mostrar loading
+
         if (agendamentoState.isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -124,7 +124,7 @@ fun MeusAgendamentosScreen(
                 }
             }
         }
-        // Mostrar mensagem de erro
+
         else if (agendamentoState.errorMessage != null) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -159,7 +159,7 @@ fun MeusAgendamentosScreen(
                 }
             }
         }
-        // Lista vazia
+
         else if (agendamentoState.agendamentos.isEmpty()) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -208,7 +208,7 @@ fun MeusAgendamentosScreen(
                 }
             }
         }
-        // Lista com agendamentos
+
         else {
             LazyColumn(
                 modifier = Modifier
@@ -216,7 +216,7 @@ fun MeusAgendamentosScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // Mostrar mensagem de sucesso se houver
+
                 if (agendamentoState.mensagemSucesso != null) {
                     item {
                         Card(
@@ -232,7 +232,7 @@ fun MeusAgendamentosScreen(
                     }
                 }
 
-                // Header com contador
+
                 item {
                     Text(
                         text = "Total: ${agendamentoState.agendamentos.size} agendamento(s)",
@@ -258,7 +258,7 @@ fun MeusAgendamentosScreen(
         }
     }
 
-    // Dialog de cancelamento
+
     if (showCancelDialog && agendamentoParaCancelar != null) {
         CancelarAgendamentoDialog(
             agendamento = agendamentoParaCancelar!!,
@@ -302,7 +302,7 @@ fun AgendamentoCard(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // Header do card com ícone e status
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -326,7 +326,7 @@ fun AgendamentoCard(
                     )
                 }
 
-                // Badge do status
+
                 Card(
                     colors = CardDefaults.cardColors(containerColor = corStatus),
                     shape = RoundedCornerShape(12.dp)
@@ -345,7 +345,7 @@ fun AgendamentoCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Informações do agendamento
+
             AgendamentoInfo(
                 label = "📅 Data e Horário:",
                 valor = agendamento.dataHora
@@ -361,7 +361,7 @@ fun AgendamentoCard(
                 valor = agendamento.nomeUsuario
             )
 
-            // ID do agendamento (para debug)
+
             if (agendamento.id.isNotEmpty()) {
                 AgendamentoInfo(
                     label = "🔗 ID:",
@@ -369,7 +369,7 @@ fun AgendamentoCard(
                 )
             }
 
-            // Botão cancelar (apenas para agendamentos confirmados)
+
             if (agendamento.status == "Confirmado") {
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -401,7 +401,7 @@ fun AgendamentoCard(
                 }
             }
 
-            // Mensagem para agendamentos recusados
+
             if (agendamento.status == "Recusado") {
                 Spacer(modifier = Modifier.height(12.dp))
 
@@ -472,7 +472,7 @@ fun CancelarAgendamentoDialog(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Ícone de aviso
+
                 Text(
                     text = "⚠️",
                     style = TextStyle(fontSize = 48.sp),
@@ -499,7 +499,7 @@ fun CancelarAgendamentoDialog(
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
-                // Detalhes do agendamento
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(

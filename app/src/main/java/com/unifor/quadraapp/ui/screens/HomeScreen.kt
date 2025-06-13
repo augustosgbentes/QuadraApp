@@ -36,7 +36,7 @@ fun HomeScreen(
     val uniforBlue = Color(0xFF2563EB)
     val userState by userViewModel.userState.collectAsState()
 
-    // Dados do usuário atual ou dados padrão
+
     val nomeUsuario = userState.user?.nome ?: "Carregando..."
     val matriculaUsuario = userState.user?.matricula ?: "Carregando..."
     val fotoUrl = userState.user?.fotoUrl
@@ -46,7 +46,7 @@ fun HomeScreen(
             .fillMaxSize()
             .background(Color(0xFFF5F5F5))
     ) {
-        // Header fixo azul
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(bottomStart = 0.dp, bottomEnd = 0.dp),
@@ -58,7 +58,7 @@ fun HomeScreen(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Foto do usuário
+
                 Card(
                     modifier = Modifier.size(50.dp),
                     shape = CircleShape,
@@ -90,7 +90,7 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.width(12.dp))
 
-                // Nome e matrícula
+
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
@@ -111,7 +111,6 @@ fun HomeScreen(
                     )
                 }
 
-                // Logo da faculdade
                 Card(
                     modifier = Modifier.size(40.dp),
                     shape = CircleShape,
@@ -132,20 +131,20 @@ fun HomeScreen(
             }
         }
 
-        // Conteúdo principal
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Card Reservar Quadra
+
             item {
                 MenuCard(
                     title = "Reservar Quadra",
                     icon = "🏟️",
                     imageContent = {
-                        // Simulando imagem da quadra esportiva
+
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -170,13 +169,13 @@ fun HomeScreen(
                 )
             }
 
-            // Card Minhas Reservas
+
             item {
                 MenuCard(
                     title = "Minhas Reservas",
                     icon = "📋",
                     imageContent = {
-                        // Simulando imagem de pessoas na quadra
+
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -201,13 +200,13 @@ fun HomeScreen(
                 )
             }
 
-            // Card Meu Perfil
+
             item {
                 MenuCard(
                     title = "Meu Perfil",
                     icon = "👤",
                     imageContent = {
-                        // Simulando imagem de perfil
+
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -233,7 +232,7 @@ fun HomeScreen(
             }
         }
 
-        // Mostrar erro se houver
+
         userState.errorMessage?.let { error ->
             Card(
                 modifier = Modifier
@@ -267,10 +266,10 @@ fun MenuCard(
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Column {
-            // Imagem do card
+
             imageContent()
 
-            // Título do card
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -90,7 +90,7 @@ class AgendamentoViewModel : ViewModel() {
                     Log.d("AgendamentoViewModel", "Horário: $horario")
                     Log.d("AgendamentoViewModel", "Usuário ID: ${currentUser.uid}")
 
-                    // Buscar dados do usuário para pegar o nome
+
                     val userResult = authRepository.buscarDadosUsuario(currentUser.uid)
                     val nomeUsuario = if (userResult.isSuccess) {
                         val user = userResult.getOrNull()
@@ -123,7 +123,7 @@ class AgendamentoViewModel : ViewModel() {
                             mensagemSucesso = "Agendamento criado com sucesso!"
                         )
 
-                        // Recarregar a lista de agendamentos para mostrar o novo
+
                         carregarAgendamentos()
 
                     } else {
@@ -164,7 +164,7 @@ class AgendamentoViewModel : ViewModel() {
                 if (result.isSuccess) {
                     Log.d("AgendamentoViewModel", "Agendamento cancelado com sucesso!")
 
-                    // Remover da lista local imediatamente
+
                     val agendamentosAtualizados = _agendamentoState.value.agendamentos.filter {
                         it.id != agendamentoId
                     }
@@ -175,7 +175,7 @@ class AgendamentoViewModel : ViewModel() {
                         mensagemSucesso = "Agendamento cancelado com sucesso!"
                     )
 
-                    // Recarregar do Firebase para garantir sincronização
+
                     carregarAgendamentos()
 
                 } else {

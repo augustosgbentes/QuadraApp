@@ -22,12 +22,12 @@ class AuthViewModel : ViewModel() {
     private val _cadastroState = MutableStateFlow(AuthState())
     val cadastroState: StateFlow<AuthState> = _cadastroState
 
-    fun login(email: String, senha: String) {
+    fun login(emailOuMatricula: String, senha: String) {
         viewModelScope.launch {
             _loginState.value = AuthState(isLoading = true)
 
             try {
-                val result = repository.loginUsuario(email.trim(), senha)
+                val result = repository.loginUsuario(emailOuMatricula.trim(), senha)
 
                 if (result.isSuccess) {
                     _loginState.value = AuthState(isSuccess = true)
@@ -75,7 +75,7 @@ class AuthViewModel : ViewModel() {
         _cadastroState.value = AuthState()
     }
 
-    // Função para limpar mensagens de erro
+
     fun clearErrors() {
         _loginState.value = _loginState.value.copy(errorMessage = null)
         _cadastroState.value = _cadastroState.value.copy(errorMessage = null)

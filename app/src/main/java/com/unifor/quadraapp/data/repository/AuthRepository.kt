@@ -61,18 +61,45 @@ class AuthRepository {
         }
     }
 
-    suspend fun loginUsuario(email: String, senha: String): Result<String> {
+    suspend fun loginUsuario(emailOuMatricula: String, senha: String): Result<String> {
         return try {
-            Log.d("AuthRepository", "Tentando fazer login: $email")
+            Log.d("AuthRepository", "Tentando fazer login: $emailOuMatricula")
 
-            val result = auth.signInWithEmailAndPassword(email, senha).await()
+            var emailParaLogin = emailOuMatricula
+
+
+            if (!emailOuMatricula.contains("@")) {
+                if (emailOuMatricula.length != 7 || !emailOuMatricula.all { it.isDigit() }) {
+                    throw Exception("Matrícula deve ter exatamente 7 dígitos")
+                }
+
+                Log.d("AuthRepository", "Login com matrícula detectado: $emailOuMatricula")
+
+
+                val snapshot = database.child("usuarios")
+                    .orderByChild("matricula")
+                    .equalTo(emailOuMatricula)
+                    .get().await()
+
+                Log.d("AuthRepository", "Snapshot existe: ${snapshot.exists()}")
+
+                if (snapshot.exists()) {
+                    val userData = snapshot.children.first().getValue(User::class.java)
+                    emailParaLogin = userData?.email ?: throw Exception("Email não encontrado")
+                    Log.d("AuthRepository", "Email encontrado: $emailParaLogin")
+                } else {
+                    throw Exception("Matrícula não encontrada")
+                }
+            }
+
+
+            val result = auth.signInWithEmailAndPassword(emailParaLogin, senha).await()
             val user = result.user
 
             if (user != null) {
-                Log.d("AuthRepository", "Login realizado com sucesso: ${user.uid}")
+                Log.d("AuthRepository", "Login realizado com sucesso!")
                 Result.success("Login realizado com sucesso!")
             } else {
-                Log.e("AuthRepository", "Usuário é null após login")
                 Result.failure(Exception("Erro ao fazer login"))
             }
         } catch (e: FirebaseAuthException) {
@@ -120,11 +147,9 @@ class AuthRepository {
 
             Log.d("AuthRepository", "Alterando senha do usuário: $email")
 
-            // Reautenticar o usuário com a senha atual
             val credential = EmailAuthProvider.getCredential(email, senhaAtual)
             user.reauthenticate(credential).await()
 
-            // Alterar a senha
             user.updatePassword(novaSenha).await()
 
             Log.d("AuthRepository", "Senha alterada com sucesso")

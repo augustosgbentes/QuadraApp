@@ -74,18 +74,18 @@ class UserViewModel : ViewModel() {
                 val currentUser = FirebaseAuth.getInstance().currentUser ?: return@launch
                 _userState.value = _userState.value.copy(isLoading = true)
 
-                // Upload da imagem para o Firebase Storage
+
                 val imageRef = storage.child("fotos_perfil/${currentUser.uid}.jpg")
                 val uploadTask = imageRef.putFile(imageUri).await()
 
-                // Obter URL da imagem
+
                 val downloadUrl = imageRef.downloadUrl.await().toString()
 
-                // Atualizar URL no database
+
                 val result = repository.atualizarFotoUsuario(currentUser.uid, downloadUrl)
 
                 if (result.isSuccess) {
-                    // Recarregar dados do usuário para mostrar a nova foto
+
                     carregarDadosUsuario()
                 } else {
                     _userState.value = _userState.value.copy(

@@ -29,7 +29,7 @@ fun LoginScreen(
     onNavigateToHome: () -> Unit,
     viewModel: AuthViewModel = viewModel()
 ) {
-    var email by remember { mutableStateOf("") }
+    var emailOuMatricula by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
 
     val loginState by viewModel.loginState.collectAsState()
@@ -47,7 +47,7 @@ fun LoginScreen(
         }
     }
 
-    // Limpar erros quando entrar na tela
+
     LaunchedEffect(Unit) {
         viewModel.clearErrors()
     }
@@ -61,13 +61,13 @@ fun LoginScreen(
     ) {
         Spacer(modifier = Modifier.height(80.dp))
 
-        // Logo da Universidade de Fortaleza
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Logo real da faculdade
+
             Image(
-                painter = painterResource(id = R.drawable.unifor_logo), // Seu arquivo na pasta drawable
+                painter = painterResource(id = R.drawable.unifor_logo),
                 contentDescription = "Logo Universidade de Fortaleza",
                 modifier = Modifier.size(80.dp),
                 contentScale = ContentScale.Fit
@@ -95,12 +95,14 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(80.dp))
 
-        // Campo E-mail
+
         Column {
             UnderlineTextField(
-                value = email,
-                onValueChange = { email = it },
-                placeholder = "E-mail ou Matrícula",
+                value = emailOuMatricula,
+                onValueChange = { newValue ->
+                    emailOuMatricula = newValue
+                },
+                placeholder = "E-mail ou Matrícula (7 dígitos)",
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -115,27 +117,38 @@ fun LoginScreen(
             )
         }
 
+
+        val isValidInput = emailOuMatricula.isNotEmpty() && senha.isNotEmpty() &&
+                (emailOuMatricula.contains("@") ||
+                        (emailOuMatricula.all { it.isDigit() } && emailOuMatricula.length == 7))
+
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Info de debug (remover em produção)
-        if (email.isNotEmpty() && senha.isNotEmpty()) {
-            Text(
-                text = "Debug: Email='$email', Senha tem ${senha.length} caracteres",
-                style = TextStyle(fontSize = 10.sp, color = Color.Gray),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+
+        if (emailOuMatricula.isNotEmpty() && !emailOuMatricula.contains("@") &&
+            (emailOuMatricula.length != 7 || !emailOuMatricula.all { it.isDigit() })) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEBEE))
+            ) {
+                Text(
+                    text = "⚠️ A matrícula deve ter exatamente 7 dígitos numéricos",
+                    color = Color.Red,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(12.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
 
-        // Botão LOGIN
         Button(
             onClick = {
-                Log.d("LoginScreen", "Tentando fazer login com: $email")
-                if (email.isNotEmpty() && senha.isNotEmpty()) {
-                    viewModel.login(email, senha)
+                Log.d("LoginScreen", "Tentando fazer login com: $emailOuMatricula")
+                if (emailOuMatricula.isNotEmpty() && senha.isNotEmpty()) {
+                    viewModel.login(emailOuMatricula, senha)
                 } else {
-                    Log.d("LoginScreen", "Email ou senha vazios")
+                    Log.d("LoginScreen", "Email/matrícula ou senha vazios")
                 }
             },
             modifier = Modifier
@@ -145,7 +158,7 @@ fun LoginScreen(
                 containerColor = uniforBlue
             ),
             shape = RoundedCornerShape(24.dp),
-            enabled = !loginState.isLoading && email.isNotEmpty() && senha.isNotEmpty()
+            enabled = !loginState.isLoading && isValidInput
         ) {
             if (loginState.isLoading) {
                 CircularProgressIndicator(
@@ -164,7 +177,7 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Botão Cadastro
+
         Button(
             onClick = onNavigateToRegister,
             modifier = Modifier
@@ -183,7 +196,7 @@ fun LoginScreen(
             )
         }
 
-        // Mensagem de erro
+
         loginState.errorMessage?.let { error ->
             Spacer(modifier = Modifier.height(16.dp))
             Card(

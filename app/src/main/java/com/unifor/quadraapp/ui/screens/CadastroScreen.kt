@@ -20,7 +20,7 @@ fun CadastroScreen(
     var nome by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
-    var telefone by remember { mutableStateOf("") }
+    var matricula by remember { mutableStateOf("") }
 
     val cadastroState by viewModel.cadastroState.collectAsState()
 
@@ -62,9 +62,24 @@ fun CadastroScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = telefone,
-            onValueChange = { telefone = it },
-            label = { Text("Telefone") },
+            value = matricula,
+            onValueChange = { newValue ->
+
+                if (newValue.all { it.isDigit() } && newValue.length <= 7) {
+                    matricula = newValue
+                }
+            },
+            label = { Text("Matrícula (7 dígitos)") },
+            placeholder = { Text("Ex: 1234567") },
+            isError = matricula.isNotEmpty() && matricula.length != 7,
+            supportingText = {
+                if (matricula.isNotEmpty() && matricula.length != 7) {
+                    Text(
+                        text = "A matrícula deve ter exatamente 7 dígitos",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -82,10 +97,17 @@ fun CadastroScreen(
 
         Button(
             onClick = {
-                viewModel.cadastrar(nome, email, senha, telefone)
+                if (nome.isNotEmpty() && email.isNotEmpty() &&
+                    senha.isNotEmpty() && matricula.length == 7) {
+                    viewModel.cadastrar(nome, email, senha, matricula)
+                }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !cadastroState.isLoading
+            enabled = !cadastroState.isLoading &&
+                    nome.isNotEmpty() &&
+                    email.isNotEmpty() &&
+                    senha.isNotEmpty() &&
+                    matricula.length == 7
         ) {
             if (cadastroState.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(20.dp))

@@ -48,21 +48,21 @@ fun PerfilScreen(
     var showLogoutDialog by remember { mutableStateOf(false) }
     var showAlterarFotoDialog by remember { mutableStateOf(false) }
 
-    // Launcher para selecionar imagem da galeria
+
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let { userViewModel.uploadFoto(it) }
     }
 
-    // Dados do usuário
+
     val user = userState.user
     val nomeUsuario = user?.nome ?: "Carregando..."
     val matriculaUsuario = user?.matricula ?: "Carregando..."
     val emailUsuario = user?.email ?: "Carregando..."
     val fotoUrl = user?.fotoUrl
 
-    // Observar sucesso na alteração de senha
+
     LaunchedEffect(alterarSenhaState.isSuccess) {
         if (alterarSenhaState.isSuccess) {
             showAlterarSenhaDialog = false
@@ -75,7 +75,7 @@ fun PerfilScreen(
             .fillMaxSize()
             .background(Color(0xFFF5F5F5))
     ) {
-        // Header azul
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(bottomStart = 0.dp, bottomEnd = 0.dp),
@@ -110,14 +110,14 @@ fun PerfilScreen(
             }
         }
 
-        // Conteúdo principal
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Seção Foto do Perfil
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -129,7 +129,7 @@ fun PerfilScreen(
                         .padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Título
+
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(bottom = 16.dp)
@@ -149,7 +149,7 @@ fun PerfilScreen(
                         )
                     }
 
-                    // Foto do usuário
+
                     Box(
                         modifier = Modifier
                             .size(120.dp)
@@ -176,7 +176,7 @@ fun PerfilScreen(
                             )
                         }
 
-                        // Loading indicator se estiver fazendo upload
+
                         if (userState.isLoading) {
                             Box(
                                 modifier = Modifier
@@ -194,7 +194,7 @@ fun PerfilScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Botão Alterar Foto
+
                     TextButton(
                         onClick = { showAlterarFotoDialog = true },
                         enabled = !userState.isLoading
@@ -211,7 +211,7 @@ fun PerfilScreen(
                 }
             }
 
-            // Seção Informações Pessoais
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -220,7 +220,7 @@ fun PerfilScreen(
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    // Título
+
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(bottom = 16.dp)
@@ -240,14 +240,14 @@ fun PerfilScreen(
                         )
                     }
 
-                    // Informações
+
                     InfoItem(label = "Nome:", valor = nomeUsuario)
                     InfoItem(label = "Matrícula:", valor = matriculaUsuario)
                     InfoItem(label = "E-mail:", valor = emailUsuario)
                 }
             }
 
-            // Seção Configurações
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -256,7 +256,7 @@ fun PerfilScreen(
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    // Título
+
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(bottom = 16.dp)
@@ -276,7 +276,7 @@ fun PerfilScreen(
                         )
                     }
 
-                    // Opções
+
                     ConfiguracaoItem(
                         icone = Icons.Default.Lock,
                         texto = "Alterar Senha",
@@ -294,7 +294,7 @@ fun PerfilScreen(
                 }
             }
 
-            // Mostrar erros
+
             userState.errorMessage?.let { error ->
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -310,7 +310,7 @@ fun PerfilScreen(
         }
     }
 
-    // Dialog Alterar Senha
+
     if (showAlterarSenhaDialog) {
         AlterarSenhaDialog(
             alterarSenhaState = alterarSenhaState,
@@ -324,19 +324,19 @@ fun PerfilScreen(
         )
     }
 
-    // Dialog Logout
+
     if (showLogoutDialog) {
         LogoutDialog(
             onDismiss = { showLogoutDialog = false },
             onConfirmar = {
-                userViewModel.logout() // Faz logout no Firebase
+                userViewModel.logout()
                 showLogoutDialog = false
-                onLogout() // Navega para login e limpa pilha
+                onLogout()
             }
         )
     }
 
-    // Dialog Alterar Foto
+
     if (showAlterarFotoDialog) {
         AlterarFotoDialog(
             onDismiss = { showAlterarFotoDialog = false },
@@ -477,7 +477,7 @@ fun AlterarSenhaDialog(
                     enabled = !alterarSenhaState.isLoading
                 )
 
-                // Mostrar erro
+
                 alterarSenhaState.errorMessage?.let { error ->
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(

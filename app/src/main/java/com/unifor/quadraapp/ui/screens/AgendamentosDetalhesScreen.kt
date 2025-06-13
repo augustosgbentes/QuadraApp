@@ -57,18 +57,18 @@ fun AgendamentoDetalhesScreen(
     val agendamentoState by agendamentoViewModel.agendamentoState.collectAsState()
     val uniforBlue = Color(0xFF2563EB)
 
-    // Observar sucesso no agendamento
+
     LaunchedEffect(agendamentoState.isSuccess) {
         if (agendamentoState.isSuccess) {
             showConfirmacaoDialog = false
             agendamentoViewModel.clearMessages()
-            onNavigateBack() // Volta para a tela anterior após sucesso
+            onNavigateBack()
         }
     }
 
-    // Horários organizados por período
+
     val todosHorarios = listOf(
-        // Manhã (07:00 - 12:00)
+
         HorarioInfo("07:00", "Manhã", 2),
         HorarioInfo("08:00", "Manhã", 5),
         HorarioInfo("09:00", "Manhã", 8),
@@ -79,7 +79,7 @@ fun AgendamentoDetalhesScreen(
         // Tarde (13:00 - 18:00)
         HorarioInfo("13:00", "Tarde", 6),
         HorarioInfo("14:00", "Tarde", 9),
-        HorarioInfo("15:00", "Tarde", 10), // Lotado
+        HorarioInfo("15:00", "Tarde", 10),
         HorarioInfo("16:00", "Tarde", 2),
         HorarioInfo("17:00", "Tarde", 5),
         HorarioInfo("18:00", "Tarde", 8),
@@ -96,7 +96,7 @@ fun AgendamentoDetalhesScreen(
             .fillMaxSize()
             .background(Color(0xFFF5F5F5))
     ) {
-        // Header azul
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(bottomStart = 0.dp, bottomEnd = 0.dp),
@@ -138,13 +138,13 @@ fun AgendamentoDetalhesScreen(
             }
         }
 
-        // Conteúdo principal
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Calendário
+
             CalendarioCustom(
                 mesAtual = mesAtual,
                 dataSelecionada = dataSelecionada,
@@ -163,7 +163,7 @@ fun AgendamentoDetalhesScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Seção Horários Disponíveis
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -194,7 +194,7 @@ fun AgendamentoDetalhesScreen(
                     )
                 )
             } else {
-                // Períodos do dia
+
                 Column(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
@@ -238,7 +238,7 @@ fun AgendamentoDetalhesScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Mostrar erro se houver
+
             agendamentoState.errorMessage?.let { error ->
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -253,7 +253,7 @@ fun AgendamentoDetalhesScreen(
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            // Botão Confirmar Agendamento
+
             Button(
                 onClick = {
                     if (dataSelecionada != null && horarioSelecionado != null) {
@@ -291,7 +291,7 @@ fun AgendamentoDetalhesScreen(
         }
     }
 
-    // Dialog de Horários do Período
+
     if (showHorariosDialog) {
         HorariosPeriodoDialog(
             periodo = periodoSelecionado,
@@ -304,7 +304,7 @@ fun AgendamentoDetalhesScreen(
         )
     }
 
-    // Dialog de Confirmação
+
     if (showConfirmacaoDialog) {
         ConfirmacaoDialog(
             quadraNome = quadraNome,
@@ -325,7 +325,7 @@ fun AgendamentoDetalhesScreen(
     }
 }
 
-// Função para formatar a data
+
 fun formatarData(dia: Int, calendario: Calendar): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
     val cal = calendario.clone() as Calendar
@@ -352,7 +352,7 @@ fun CalendarioCustom(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // Header do mês
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -383,7 +383,7 @@ fun CalendarioCustom(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Dias da semana
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -404,7 +404,7 @@ fun CalendarioCustom(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Grid dos dias
+
             val calendar = mesAtual.clone() as Calendar
             calendar.set(Calendar.DAY_OF_MONTH, 1)
             val primeiroDiaMes = calendar.get(Calendar.DAY_OF_WEEK) - 1
@@ -414,7 +414,7 @@ fun CalendarioCustom(
                 columns = GridCells.Fixed(7),
                 modifier = Modifier.height(240.dp)
             ) {
-                // Espaços vazios antes do primeiro dia
+
                 items(primeiroDiaMes) {
                     Spacer(modifier = Modifier.size(40.dp))
                 }
@@ -555,7 +555,7 @@ fun HorariosPeriodoDialog(
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                // Header
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(bottom = 16.dp)
@@ -574,7 +574,7 @@ fun HorariosPeriodoDialog(
                     )
                 }
 
-                // Lista de horários
+
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -596,7 +596,7 @@ fun HorariosPeriodoDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Botão Fechar
+
                 Button(
                     onClick = onDismiss,
                     modifier = Modifier.fillMaxWidth(),
@@ -624,7 +624,7 @@ fun HorarioSelecionavelCard(
         colors = CardDefaults.cardColors(
             containerColor = when {
                 !horario.disponivel -> Color.Gray.copy(alpha = 0.3f)
-                horario.vagasOcupadas > 7 -> Color(0xFFFF9800).copy(alpha = 0.2f) // Laranja
+                horario.vagasOcupadas > 7 -> Color(0xFFFF9800).copy(alpha = 0.2f)
                 else -> cor.copy(alpha = 0.1f)
             }
         ),
@@ -648,7 +648,7 @@ fun HorarioSelecionavelCard(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // Indicador visual de ocupação
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {

@@ -29,7 +29,7 @@ data class QuadraInfo(
     val descricao: String,
     val icone: String,
     val corFundo: Color,
-    val imagemRes: Int // Adiciona o ID da imagem
+    val imagemRes: Int
 )
 
 data class HorarioDisponivel(
@@ -52,7 +52,7 @@ fun AgendamentoScreen(
     var showHorariosDialog by remember { mutableStateOf(false) }
     var quadraSelecionadaParaHorarios by remember { mutableStateOf<QuadraInfo?>(null) }
 
-    // Lista de quadras disponíveis com imagens reais
+
     val quadras = listOf(
         QuadraInfo(
             id = "futsal",
@@ -60,7 +60,7 @@ fun AgendamentoScreen(
             descricao = "Quadra oficial de futsal com piso de madeira",
             icone = "⚽",
             corFundo = Color(0xFFE8B4A6),
-            imagemRes = R.drawable.quadra_futsal // Sua imagem da quadra de futsal
+            imagemRes = R.drawable.quadra_futsal
         ),
         QuadraInfo(
             id = "basquete",
@@ -68,7 +68,7 @@ fun AgendamentoScreen(
             descricao = "Quadra oficial de basquete com piso de madeira e tabelas regulamentares",
             icone = "🏀",
             corFundo = Color(0xFF8B7355),
-            imagemRes = R.drawable.quadra_basquete // Sua imagem da quadra de basquete
+            imagemRes = R.drawable.quadra_basquete
         ),
         QuadraInfo(
             id = "volei",
@@ -76,13 +76,12 @@ fun AgendamentoScreen(
             descricao = "Quadra oficial de vôlei com rede regulamentar",
             icone = "🏐",
             corFundo = Color(0xFF6B8E6B),
-            imagemRes = R.drawable.quadra_volei // Sua imagem da quadra de vôlei
+            imagemRes = R.drawable.quadra_volei
         )
     )
 
-    // Horários mockados para todas as quadras
     val todosHorarios = listOf(
-        // Manhã (07:00 - 12:00)
+
         HorarioDisponivel("07:00", "Manhã", 2),
         HorarioDisponivel("08:00", "Manhã", 5),
         HorarioDisponivel("09:00", "Manhã", 8),
@@ -90,15 +89,15 @@ fun AgendamentoScreen(
         HorarioDisponivel("11:00", "Manhã", 7),
         HorarioDisponivel("12:00", "Manhã", 4),
 
-        // Tarde (13:00 - 18:00)
+
         HorarioDisponivel("13:00", "Tarde", 6),
         HorarioDisponivel("14:00", "Tarde", 9),
-        HorarioDisponivel("15:00", "Tarde", 10), // Lotado
+        HorarioDisponivel("15:00", "Tarde", 10),
         HorarioDisponivel("16:00", "Tarde", 2),
         HorarioDisponivel("17:00", "Tarde", 5),
         HorarioDisponivel("18:00", "Tarde", 8),
 
-        // Noite (19:00 - 22:00)
+
         HorarioDisponivel("19:00", "Noite", 4),
         HorarioDisponivel("20:00", "Noite", 7),
         HorarioDisponivel("21:00", "Noite", 6),
@@ -148,7 +147,7 @@ fun AgendamentoScreen(
             }
         }
 
-        // Lista de quadras
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -170,7 +169,7 @@ fun AgendamentoScreen(
         }
     }
 
-    // Dialog Ver Horários
+
     if (showHorariosDialog && quadraSelecionadaParaHorarios != null) {
         VerHorariosDialog(
             quadra = quadraSelecionadaParaHorarios!!,
@@ -196,7 +195,7 @@ fun QuadraCard(
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Column {
-            // Imagem real da quadra
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -211,7 +210,7 @@ fun QuadraCard(
                     contentScale = ContentScale.Crop
                 )
 
-                // Overlay gradiente para melhor legibilidade do texto
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -225,7 +224,7 @@ fun QuadraCard(
                         )
                 )
 
-                // Texto sobre a imagem
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -252,11 +251,11 @@ fun QuadraCard(
                 }
             }
 
-            // Conteúdo do card
+
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                // Título com ícone
+
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -277,7 +276,7 @@ fun QuadraCard(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Descrição
+
                 Text(
                     text = quadra.descricao,
                     style = TextStyle(
@@ -289,13 +288,13 @@ fun QuadraCard(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Botões
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Botão Ver Horários
+
                     TextButton(
                         onClick = onVerHorarios
                     ) {
@@ -309,7 +308,7 @@ fun QuadraCard(
                         )
                     }
 
-                    // Botão RESERVAR
+
                     Button(
                         onClick = onReservar,
                         colors = ButtonDefaults.buttonColors(
@@ -350,7 +349,7 @@ fun VerHorariosDialog(
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
-                // Header do dialog
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -382,11 +381,11 @@ fun VerHorariosDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Lista de horários por período
+
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    // Agrupar horários por período
+
                     val horariosPorPeriodo = horarios.groupBy { it.periodo }
 
                     horariosPorPeriodo.forEach { (periodo, horariosDoPerio) ->
@@ -401,7 +400,7 @@ fun VerHorariosDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Botão Fechar
+
                 Button(
                     onClick = onDismiss,
                     modifier = Modifier.fillMaxWidth(),
@@ -436,7 +435,7 @@ fun PeriodoHorariosSection(
     }
 
     Column {
-        // Header do período
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(bottom = 12.dp)
@@ -456,7 +455,7 @@ fun PeriodoHorariosSection(
             )
         }
 
-        // Horários do período
+
         horarios.forEach { horario ->
             HorarioItem(horario = horario, cor = cor)
             Spacer(modifier = Modifier.height(8.dp))
@@ -495,7 +494,7 @@ fun HorarioItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Indicador visual de ocupação
+
                 Box(
                     modifier = Modifier
                         .size(8.dp)
